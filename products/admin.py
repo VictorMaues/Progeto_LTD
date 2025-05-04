@@ -1,8 +1,19 @@
 import csv
 from django.http import HttpResponse
 from django.contrib import admin
-from .models import Brand, Category, Product
+from .models import Brand, Category, Product, Paciente, Exame  # Remova a segunda importação
 
+@admin.register(Paciente)
+class PacienteAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'leito', 'nivel_gravidade', 'liberado_para_alta')
+    list_filter = ('nivel_gravidade', 'liberado_para_alta')
+    search_fields = ('nome', 'leito')
+
+@admin.register(Exame)
+class ExameAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'data', 'paciente', 'realizado')
+    list_filter = ('realizado', 'data')
+    raw_id_fields = ('paciente',)
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
@@ -15,7 +26,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'is_active', 'description', 'created_at', 'updated_at')
     search_fields = ('name',)
     list_filter = ('is_active',)
-
+    
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'brand', 'category', 'price',

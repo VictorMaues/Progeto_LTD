@@ -48,3 +48,31 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+class Paciente(models.Model):
+    nome = models.CharField(max_length=100)
+    idade = models.IntegerField()
+    leito = models.CharField(max_length=10)
+    nivel_gravidade = models.CharField(
+        max_length=10,
+        choices=[
+            ('critico', 'Crítico'),
+            ('alto', 'Alto'),
+            ('medio', 'Médio'),
+            ('baixo', 'Baixo')
+        ]
+    )
+    liberado_para_alta = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.nome
+
+class Exame(models.Model):
+    paciente = models.ForeignKey('Paciente', on_delete=models.CASCADE, related_name='exames')  # Corrigido para singular
+    nome = models.CharField(max_length=100)
+    data = models.DateField()
+    resultado = models.TextField(blank=True, null=True)  # Adicionei campo opcional
+    realizado = models.BooleanField(default=False)  # Adicionei campo status
+
+    def __str__(self):
+        return f"{self.nome} ({self.data}) - {self.paciente.nome}"

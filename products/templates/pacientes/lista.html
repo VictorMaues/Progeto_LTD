@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Pacientes Internados</title>
+</head>
+<body>
+    <h1>Lista de Pacientes</h1>
+    <ul>
+        {% for paciente in pacientes %}
+            <li>{{ paciente.nome }} - {{ paciente.idade }} anos</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
